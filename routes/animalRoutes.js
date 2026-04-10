@@ -1,3 +1,4 @@
+const verifyToken = require('./validate_token');
 const express = require("express");
 const router = express.Router();
 const Animal = require("../models/Animals.js");
@@ -22,6 +23,12 @@ router.get("/", async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+
+router.get("/animals", verifyToken, (req, res) => {
+  animalSchema.find()
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+})
 
 // READ ONE: Obtener un solo animal por su ID
 router.get("/:id", async (req, res) => {
